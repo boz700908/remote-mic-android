@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">遥控麦</string>
+    <string name="accessibility_service_label">遥控麦 · 文字输入</string>
+    <string name="accessibility_service_description">把遥控器语音识别出的文字写入当前输入框，并执行遥控器的返回、主页、音量与媒体键。</string>
+</resources>
