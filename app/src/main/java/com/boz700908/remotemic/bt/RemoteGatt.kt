@@ -21,6 +21,9 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.boz700908.remotemic.device.DescriptorEngine
+import com.boz700908.remotemic.device.DeviceDescriptor
+import com.boz700908.remotemic.device.DeviceRegistry
 import com.boz700908.remotemic.protocol.AtvvCapabilities
 import com.boz700908.remotemic.protocol.AtvvProtocol
 import com.boz700908.remotemic.protocol.FrameAccumulator
@@ -48,6 +51,12 @@ class RemoteGatt(private val context: Context, private val listener: Listener) {
         fun onVoiceStop(timeout: Boolean)
         fun onPcm(samples: ShortArray)
         fun onHidUsages(usages: List<Int>)
+
+        /** 识别出的机型描述符（机型名与按键表都来自它）。识别不出时不回调。 */
+        fun onDescriptor(descriptor: DeviceDescriptor) {}
+
+        /** 按描述符解出的按键状态；pressed 是当前按住的输入 id 列表。 */
+        fun onHidDecoded(decoded: DescriptorEngine.Decoded) {}
     }
 
     enum class Status { IDLE, SCANNING, CONNECTING, DISCOVERING, READY, DISCONNECTED, ERROR }
@@ -65,6 +74,10 @@ class RemoteGatt(private val context: Context, private val listener: Listener) {
     private var subscribedAudio = false
     private var subscribedControl = false
     private var capsRequested = false
+
+    private var descriptor: DeviceDescriptor? = null
+    private var modelNumber = ""
+    private var hasHidService = false
 
     private var caps: AtvvCapabilities? = null
     private var streaming = false
@@ -196,8 +209,18 @@ class RemoteGatt(private val context: Context, private val listener: Listener) {
                 listener.onStatus(Status.ERROR, "服务发现失败 status=$status")
                 return
             }
+            // 先把 HID 通道接好：没有语音服务的机型也要能转发按键。
+            hasHidService = g.getService(HID_SERVICE) != null
+            g.getService(HID_SERVICE)?.characteristics?.forEach { ch ->
+                if (ch.uuid == HID_REPORT && supportsNotify(ch)) enableNotify(g, ch)
+            }
+            g.getService(DEVICE_INFO_SERVICE)?.getCharacteristic(MODEL_NUMBER)?.let { ch ->
+                runCatching { g.readCharacteristic(ch) }
+            }
+            identify(g)
+
             val atvv = g.getService(AtvvProtocol.SERVICE) ?: run {
-                listener.onStatus(Status.ERROR, "这台设备没有 ATVV 语音服务")
+                listener.onStatus(Status.ERROR, "这台设备没有 ATVV 语音服务（按键转发不受影响）")
                 return
             }
             val tx = atvv.getCharacteristic(AtvvProtocol.TRANSMIT)
@@ -215,13 +238,6 @@ class RemoteGatt(private val context: Context, private val listener: Listener) {
                 runCatching { g.readCharacteristic(ch) }
                 if (supportsNotify(ch)) enableNotify(g, ch)
             }
-            g.getService(DEVICE_INFO_SERVICE)?.getCharacteristic(MODEL_NUMBER)?.let { ch ->
-                runCatching { g.readCharacteristic(ch) }
-            }
-            g.getService(HID_SERVICE)?.characteristics?.forEach { ch ->
-                if (ch.uuid == HID_REPORT && supportsNotify(ch)) enableNotify(g, ch)
-            }
-
             runCatching { g.requestMtu(517) }
             handler.postDelayed({ requestCapabilitiesIfReady() }, 1200)
         }
@@ -287,11 +303,22 @@ class RemoteGatt(private val context: Context, private val listener: Listener) {
             MODEL_NUMBER -> {
                 val model = runCatching { String(value, Charsets.UTF_8).trim() }.getOrDefault("")
                 if (model.isNotEmpty()) {
+                    modelNumber = model
                     if (model.uppercase().contains("ARN9")) decoder.lowNibbleFirst = true
                     listener.onModelNumber(model)
+                    gatt?.let { identify(it) }
                 }
             }
         }
+    }
+
+    /** 用「设备名 + 型号」识别机型；型号通常晚于服务发现才读到，所以会调两次。 */
+    private fun identify(g: BluetoothGatt) {
+        val name = runCatching { g.device.name }.getOrNull()
+        val d = DeviceRegistry.identify(context, name, modelNumber, hasHidService) ?: return
+        if (d.id == descriptor?.id) return
+        descriptor = d
+        listener.onDescriptor(d)
     }
 
     private fun handleNotify(uuid: UUID, value: ByteArray) {
@@ -299,8 +326,15 @@ class RemoteGatt(private val context: Context, private val listener: Listener) {
             AtvvProtocol.CONTROL -> handleControl(value)
             AtvvProtocol.AUDIO -> handleAudio(value)
             HID_REPORT -> {
-                val usages = HidReportParser.usages(value)
-                if (usages.isNotEmpty()) listener.onHidUsages(usages)
+                val d = descriptor
+                val decoded = if (d != null) DescriptorEngine.decode(d, value) else null
+                if (decoded != null && decoded.report != null) {
+                    listener.onHidDecoded(decoded)
+                } else {
+                    // 描述符没覆盖这种形态：退回通用 usage 解析
+                    val usages = HidReportParser.usages(value)
+                    if (usages.isNotEmpty()) listener.onHidUsages(usages)
+                }
             }
         }
     }
@@ -471,6 +505,8 @@ class RemoteGatt(private val context: Context, private val listener: Listener) {
         subscribedAudio = false
         subscribedControl = false
         transmit = null
+        descriptor = null
+        hasHidService = false
         accumulator.reset()
         decoder.reset()
         pendingSync = null

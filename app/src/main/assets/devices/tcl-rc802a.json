@@ -1,0 +1,739 @@
+{
+ "kind": "tcl-rc802a",
+ "schema": "axonkey.device/1",
+ "id": "tcl-rc802a",
+ "vendor": "TCL",
+ "model": "RC802A",
+ "displayName": "TCL RC802A",
+ "revision": "3",
+ "identities": [
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x010416",
+   "pid": "0x0301",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "windows-prefix": "BTHLEDEVICE",
+   "information-required": "true",
+   "model-contains": "BT_RC802A",
+   "manufacturer-contains": "TCL"
+  }
+ ],
+ "reports": [
+  {
+   "id": "captured-buttons",
+   "direction": "input",
+   "reportId": "0x01",
+   "length": "9",
+   "encoding": "bit-field",
+   "attrs": {
+    "id": "captured-buttons",
+    "direction": "input",
+    "report-id": "0x01",
+    "length": "9",
+    "encoding": "bit-field",
+    "prefix": "0x01 0x00 0x00",
+    "state-group": "captured-buttons"
+   }
+  },
+  {
+   "id": "voice-audio",
+   "direction": "input",
+   "reportId": "0xEC",
+   "length": "21",
+   "encoding": "gatt-stream",
+   "attrs": {
+    "id": "voice-audio",
+    "direction": "input",
+    "report-id": "0xEC",
+    "length": "21",
+    "encoding": "gatt-stream",
+    "engine": "tcl-rc802a.ico"
+   }
+  }
+ ],
+ "inputs": [
+  {
+   "id": "tcl-rc802a.mute",
+   "label": "静音",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.mute",
+    "label": "静音",
+    "short": "静音",
+    "icon": "mute",
+    "kind": "button",
+    "target": "#key-mute",
+    "order": "2",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xEF"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.input",
+   "label": "信号源",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.input",
+    "label": "信号源",
+    "short": "信号源",
+    "icon": "tv",
+    "kind": "button",
+    "target": "#key-input",
+    "order": "3",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x97"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.red",
+   "label": "红色键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.red",
+    "label": "红色键",
+    "short": "红",
+    "icon": "center",
+    "kind": "button",
+    "target": "#key-red",
+    "order": "4",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x99"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.green",
+   "label": "绿色键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.green",
+    "label": "绿色键",
+    "short": "绿",
+    "icon": "center",
+    "kind": "button",
+    "target": "#key-green",
+    "order": "5",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x9A"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.blue",
+   "label": "蓝色键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.blue",
+    "label": "蓝色键",
+    "short": "蓝",
+    "icon": "center",
+    "kind": "button",
+    "target": "#key-blue",
+    "order": "6",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x9B"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.up",
+   "label": "上",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.up",
+    "label": "上",
+    "short": "上",
+    "icon": "up",
+    "kind": "button",
+    "target": "#key-up",
+    "order": "7",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x52"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.right",
+   "label": "右",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.right",
+    "label": "右",
+    "short": "右",
+    "icon": "right",
+    "kind": "button",
+    "target": "#key-right",
+    "order": "8",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x4F"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.down",
+   "label": "下",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.down",
+    "label": "下",
+    "short": "下",
+    "icon": "down",
+    "kind": "button",
+    "target": "#key-down",
+    "order": "9",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x51"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.left",
+   "label": "左",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.left",
+    "label": "左",
+    "short": "左",
+    "icon": "left",
+    "kind": "button",
+    "target": "#key-left",
+    "order": "10",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x50"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.confirm",
+   "label": "确认",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.confirm",
+    "label": "确认",
+    "short": "确认",
+    "icon": "center",
+    "kind": "button",
+    "target": "#key-confirm",
+    "order": "11",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x28"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.back",
+   "label": "返回",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.back",
+    "label": "返回",
+    "short": "返回",
+    "icon": "back",
+    "kind": "button",
+    "target": "#key-back",
+    "order": "12",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xF1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.volumeUp",
+   "label": "音量加",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.volumeUp",
+    "label": "音量加",
+    "short": "音量＋",
+    "icon": "volumeUp",
+    "kind": "button",
+    "target": "#key-volume-up",
+    "order": "13",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xED"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.home",
+   "label": "主页",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.home",
+    "label": "主页",
+    "short": "主页",
+    "icon": "home",
+    "kind": "button",
+    "target": "#key-home",
+    "order": "14",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x83"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.menu",
+   "label": "菜单",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.menu",
+    "label": "菜单",
+    "short": "菜单",
+    "icon": "menu",
+    "kind": "button",
+    "target": "#key-menu",
+    "order": "15",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x65"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.volumeDown",
+   "label": "音量减",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.volumeDown",
+    "label": "音量减",
+    "short": "音量－",
+    "icon": "volumeDown",
+    "kind": "button",
+    "target": "#key-volume-down",
+    "order": "16",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xEE"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.settings",
+   "label": "设置",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.settings",
+    "label": "设置",
+    "short": "设置",
+    "icon": "settings",
+    "kind": "button",
+    "target": "#key-settings",
+    "order": "17",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xA8"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.appB",
+   "label": "应用 B",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.appB",
+    "label": "应用 B",
+    "short": "B",
+    "icon": "tv",
+    "kind": "button",
+    "target": "#key-app-b",
+    "order": "18",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xD1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.appK",
+   "label": "应用 K",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.appK",
+    "label": "应用 K",
+    "short": "K",
+    "icon": "tv",
+    "kind": "button",
+    "target": "#key-app-k",
+    "order": "19",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xDE"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.voice",
+   "label": "麦克风键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.voice",
+    "label": "麦克风键",
+    "short": "语音",
+    "icon": "mic",
+    "kind": "button",
+    "target": "#key-voice",
+    "order": "20",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xAD"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.sideUpper",
+   "label": "侧边上键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.sideUpper",
+    "label": "侧边上键",
+    "short": "侧上",
+    "icon": "center",
+    "kind": "button",
+    "target": "#key-side-upper",
+    "order": "21",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x9E"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.sideLower",
+   "label": "侧边下键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.sideLower",
+    "label": "侧边下键",
+    "short": "侧下",
+    "icon": "center",
+    "kind": "button",
+    "target": "#key-side-lower",
+    "order": "22",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x9F"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc802a.sideFunction",
+   "label": "侧边功能键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc802a.sideFunction",
+    "label": "侧边功能键",
+    "short": "侧键",
+    "icon": "center",
+    "kind": "button",
+    "target": "#key-side-function",
+    "order": "23",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xAA"
+     }
+    }
+   ]
+  }
+ ],
+ "voices": []
+}

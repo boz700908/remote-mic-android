@@ -1,0 +1,737 @@
+{
+ "kind": "tcl-rc902n",
+ "schema": "axonkey.device/1",
+ "id": "tcl-rc902n",
+ "vendor": "TCL",
+ "model": "RC902N",
+ "displayName": "TCL RC902N",
+ "revision": "2",
+ "identities": [
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x010417",
+   "pid": "0x0304",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "windows-prefix": "BTHLEDEVICE",
+   "information-required": "true",
+   "software-contains": "RC902N"
+  }
+ ],
+ "reports": [
+  {
+   "id": "captured-buttons",
+   "direction": "input",
+   "reportId": "0x03",
+   "length": "3",
+   "encoding": "bit-field",
+   "attrs": {
+    "id": "captured-buttons",
+    "direction": "input",
+    "report-id": "0x03",
+    "length": "3",
+    "encoding": "bit-field",
+    "prefix": "0x03",
+    "state-group": "captured-buttons"
+   }
+  },
+  {
+   "id": "voice-audio",
+   "direction": "input",
+   "reportId": null,
+   "length": null,
+   "encoding": "gatt-stream",
+   "attrs": {
+    "id": "voice-audio",
+    "direction": "input",
+    "encoding": "gatt-stream",
+    "transport": "bluetooth-gatt",
+    "engine": "tcl-rc902v-atvv"
+   }
+  }
+ ],
+ "inputs": [
+  {
+   "id": "tcl-rc902n.menu",
+   "label": "菜单",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.menu",
+    "label": "菜单",
+    "short": "菜单",
+    "icon": "menu",
+    "kind": "button",
+    "order": "1",
+    "target": "#key-menu",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0050"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.bookmark",
+   "label": "书签图标键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.bookmark",
+    "label": "书签图标键",
+    "short": "书签",
+    "icon": "center",
+    "kind": "button",
+    "order": "3",
+    "target": "#key-bookmark",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0059"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.assistant",
+   "label": "语音键（A）",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.assistant",
+    "label": "语音键（A）",
+    "short": "语音",
+    "icon": "mic",
+    "kind": "button",
+    "order": "4",
+    "target": "#key-assistant",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0221"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.settings",
+   "label": "设置",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.settings",
+    "label": "设置",
+    "short": "设置",
+    "icon": "settings",
+    "kind": "button",
+    "order": "5",
+    "target": "#key-settings",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0055"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.up",
+   "label": "上",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.up",
+    "label": "上",
+    "short": "上",
+    "icon": "up",
+    "kind": "button",
+    "order": "6",
+    "target": "#key-up",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0042"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.right",
+   "label": "右",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.right",
+    "label": "右",
+    "short": "右",
+    "icon": "right",
+    "kind": "button",
+    "order": "7",
+    "target": "#key-right",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0045"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.down",
+   "label": "下",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.down",
+    "label": "下",
+    "short": "下",
+    "icon": "down",
+    "kind": "button",
+    "order": "8",
+    "target": "#key-down",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0043"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.left",
+   "label": "左",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.left",
+    "label": "左",
+    "short": "左",
+    "icon": "left",
+    "kind": "button",
+    "order": "9",
+    "target": "#key-left",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0044"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.confirm",
+   "label": "确认",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.confirm",
+    "label": "确认",
+    "short": "确认",
+    "icon": "center",
+    "kind": "button",
+    "order": "10",
+    "target": "#key-confirm",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0041"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.back",
+   "label": "返回",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.back",
+    "label": "返回",
+    "short": "返回",
+    "icon": "back",
+    "kind": "button",
+    "order": "11",
+    "target": "#key-back",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0224"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.home",
+   "label": "主页",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.home",
+    "label": "主页",
+    "short": "主页",
+    "icon": "home",
+    "kind": "button",
+    "order": "12",
+    "target": "#key-home",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0223"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.tv",
+   "label": "电视图标键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.tv",
+    "label": "电视图标键",
+    "short": "电视",
+    "icon": "tv",
+    "kind": "button",
+    "order": "13",
+    "target": "#key-tv",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x005B"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.keypad",
+   "label": "键盘与四色点图标键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.keypad",
+    "label": "键盘与四色点图标键",
+    "short": "键盘",
+    "icon": "number",
+    "kind": "button",
+    "order": "14",
+    "target": "#key-keypad",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0052"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.layers",
+   "label": "双层菱形图标键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.layers",
+    "label": "双层菱形图标键",
+    "short": "菱形",
+    "icon": "center",
+    "kind": "button",
+    "order": "15",
+    "target": "#key-layers",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x003D"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.tiles",
+   "label": "方块图标键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.tiles",
+    "label": "方块图标键",
+    "short": "方块",
+    "icon": "center",
+    "kind": "button",
+    "order": "16",
+    "target": "#key-tiles",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x003A"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.appN",
+   "label": "应用 N（Netflix）",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.appN",
+    "label": "应用 N（Netflix）",
+    "short": "N",
+    "icon": "tv",
+    "kind": "button",
+    "order": "17",
+    "target": "#key-app-n",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0051"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.appY",
+   "label": "应用 Y（YouTube）",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.appY",
+    "label": "应用 Y（YouTube）",
+    "short": "Y",
+    "icon": "tv",
+    "kind": "button",
+    "order": "18",
+    "target": "#key-app-y",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0057"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.appT",
+   "label": "应用 T（TCL Channel）",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.appT",
+    "label": "应用 T（TCL Channel）",
+    "short": "T",
+    "icon": "tv",
+    "kind": "button",
+    "order": "19",
+    "target": "#key-app-t",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0053"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.appP",
+   "label": "应用 P（Prime Video）",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.appP",
+    "label": "应用 P（Prime Video）",
+    "short": "P",
+    "icon": "tv",
+    "kind": "button",
+    "order": "20",
+    "target": "#key-app-p",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x005F"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.volumeUp",
+   "label": "音量加",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.volumeUp",
+    "label": "音量加",
+    "short": "音量＋",
+    "icon": "volumeUp",
+    "kind": "button",
+    "order": "21",
+    "target": "#key-volume-up",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x00E9"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.volumeDown",
+   "label": "音量减",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.volumeDown",
+    "label": "音量减",
+    "short": "音量－",
+    "icon": "volumeDown",
+    "kind": "button",
+    "order": "22",
+    "target": "#key-volume-down",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x00EA"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tcl-rc902n.mute",
+   "label": "静音",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "tcl-rc902n.mute",
+    "label": "静音",
+    "short": "静音",
+    "icon": "mute",
+    "kind": "button",
+    "order": "23",
+    "target": "#key-mute",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x00E2"
+     }
+    }
+   ]
+  }
+ ],
+ "voices": []
+}

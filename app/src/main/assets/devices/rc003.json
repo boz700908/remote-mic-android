@@ -1,0 +1,867 @@
+{
+ "kind": "rc003",
+ "schema": "axonkey.device/1",
+ "id": "xiaomi.rc003",
+ "vendor": "Xiaomi",
+ "model": "RC003",
+ "displayName": "小米 RC003",
+ "revision": "1",
+ "identities": [
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x2717|0x012717",
+   "pid": "0x32B8",
+   "usage-page": "0x01",
+   "usage": "0x06",
+   "windows-prefix": "BTHLEDEVICE",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "serial-policy": "reject-ambiguous",
+   "required": "true"
+  }
+ ],
+ "reports": [
+  {
+   "id": "keyboard",
+   "direction": "input",
+   "reportId": "0x01",
+   "length": "7",
+   "encoding": "le-u16-slots",
+   "attrs": {
+    "id": "keyboard",
+    "direction": "input",
+    "report-id": "0x01",
+    "length": "7",
+    "encoding": "le-u16-slots",
+    "usage-page": "0x07",
+    "payload-offset": "1",
+    "slot-width": "2",
+    "slot-count": "3",
+    "endian": "little",
+    "state-group": "keyboard"
+   }
+  },
+  {
+   "id": "keyboard-no-id",
+   "direction": "input",
+   "reportId": null,
+   "length": "6",
+   "encoding": "le-u16-slots",
+   "attrs": {
+    "id": "keyboard-no-id",
+    "direction": "input",
+    "length": "6",
+    "encoding": "le-u16-slots",
+    "usage-page": "0x07",
+    "payload-offset": "0",
+    "slot-width": "2",
+    "slot-count": "3",
+    "endian": "little",
+    "state-group": "keyboard"
+   }
+  },
+  {
+   "id": "keyboard-boot",
+   "direction": "input",
+   "reportId": null,
+   "length": "8",
+   "encoding": "boot-keyboard",
+   "attrs": {
+    "id": "keyboard-boot",
+    "direction": "input",
+    "length": "8",
+    "encoding": "boot-keyboard",
+    "usage-page": "0x07",
+    "payload-offset": "2",
+    "slot-count": "6",
+    "state-group": "keyboard"
+   }
+  },
+  {
+   "id": "keyboard-header",
+   "direction": "input",
+   "reportId": "0x01",
+   "length": "9",
+   "encoding": "le-u16-slots",
+   "attrs": {
+    "id": "keyboard-header",
+    "direction": "input",
+    "report-id": "0x01",
+    "length": "9",
+    "prefix": "0x01 0x00 0x00",
+    "encoding": "le-u16-slots",
+    "usage-page": "0x07",
+    "payload-offset": "3",
+    "slot-width": "2",
+    "slot-count": "3",
+    "endian": "little",
+    "state-group": "keyboard"
+   }
+  },
+  {
+   "id": "keyboard-four-slots",
+   "direction": "input",
+   "reportId": "0x01",
+   "length": "9",
+   "encoding": "le-u16-slots",
+   "attrs": {
+    "id": "keyboard-four-slots",
+    "direction": "input",
+    "report-id": "0x01",
+    "length": "9",
+    "prefix-not": "0x01 0x00 0x00",
+    "encoding": "le-u16-slots",
+    "usage-page": "0x07",
+    "payload-offset": "1",
+    "slot-width": "2",
+    "slot-count": "4",
+    "endian": "little",
+    "state-group": "keyboard"
+   }
+  },
+  {
+   "id": "voice-audio",
+   "direction": "input",
+   "reportId": null,
+   "length": null,
+   "encoding": "gatt-stream",
+   "attrs": {
+    "id": "voice-audio",
+    "direction": "input",
+    "encoding": "gatt-stream",
+    "transport": "bluetooth-gatt",
+    "engine": "rc003-atvv"
+   }
+  }
+ ],
+ "inputs": [
+  {
+   "id": "xiaomi.rc003.voice",
+   "label": "语音键",
+   "kind": "button",
+   "legacyKey": "voice",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "id": "xiaomi.rc003.voice",
+    "short": "语音",
+    "icon": "mic",
+    "order": "1",
+    "label": "语音键",
+    "kind": "button",
+    "target": "#voice",
+    "legacy-key": "voice",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x003E",
+    "original": "true"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x003E"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x003E"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x003E"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x003E"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.power",
+   "label": "电源键",
+   "kind": "button",
+   "legacyKey": "power",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "id": "xiaomi.rc003.power",
+    "short": "电源",
+    "icon": "power",
+    "order": "0",
+    "label": "电源键",
+    "kind": "button",
+    "target": "#power",
+    "legacy-key": "power",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0066",
+    "original": "true"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0066"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0066"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0066"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0066"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.up",
+   "label": "方向上",
+   "kind": "button",
+   "legacyKey": "up",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.up",
+    "short": "上",
+    "icon": "up",
+    "order": "2",
+    "label": "方向上",
+    "kind": "button",
+    "target": "#up",
+    "legacy-key": "up",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0052"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0052"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0052"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0052"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0052"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.left",
+   "label": "方向左",
+   "kind": "button",
+   "legacyKey": "left",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.left",
+    "short": "左",
+    "icon": "left",
+    "order": "3",
+    "label": "方向左",
+    "kind": "button",
+    "target": "#left",
+    "legacy-key": "left",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0050"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0050"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0050"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0050"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0050"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.confirm",
+   "label": "确认键",
+   "kind": "button",
+   "legacyKey": "confirm",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.confirm",
+    "short": "确认",
+    "icon": "center",
+    "order": "4",
+    "label": "确认键",
+    "kind": "button",
+    "target": "#confirm",
+    "legacy-key": "confirm",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0028"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0028"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0028"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0028"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0028"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.right",
+   "label": "方向右",
+   "kind": "button",
+   "legacyKey": "right",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.right",
+    "short": "右",
+    "icon": "right",
+    "order": "5",
+    "label": "方向右",
+    "kind": "button",
+    "target": "#right",
+    "legacy-key": "right",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x004F"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x004F"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x004F"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x004F"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x004F"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.down",
+   "label": "方向下",
+   "kind": "button",
+   "legacyKey": "down",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.down",
+    "short": "下",
+    "icon": "down",
+    "order": "6",
+    "label": "方向下",
+    "kind": "button",
+    "target": "#down",
+    "legacy-key": "down",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0051"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0051"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0051"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0051"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0051"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.back",
+   "label": "返回键",
+   "kind": "button",
+   "legacyKey": "back",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.back",
+    "short": "返回",
+    "icon": "back",
+    "order": "7",
+    "label": "返回键",
+    "kind": "button",
+    "target": "#back",
+    "legacy-key": "back",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x00F1"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x00F1"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x00F1"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x00F1"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x00F1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.home",
+   "label": "主页键",
+   "kind": "button",
+   "legacyKey": "home",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.home",
+    "short": "主页",
+    "icon": "home",
+    "order": "9",
+    "label": "主页键",
+    "kind": "button",
+    "target": "#home",
+    "legacy-key": "home",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x004A"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x004A"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x004A"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x004A"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x004A"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.menu",
+   "label": "菜单键",
+   "kind": "button",
+   "legacyKey": "menu",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.menu",
+    "short": "功能",
+    "icon": "menu",
+    "order": "11",
+    "label": "菜单键",
+    "kind": "button",
+    "target": "#menu",
+    "legacy-key": "menu",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0065"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0065"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0065"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0065"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0065"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.tv",
+   "label": "TV 键",
+   "kind": "button",
+   "legacyKey": "tv",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.tv",
+    "short": "电视",
+    "icon": "tv",
+    "order": "12",
+    "label": "TV 键",
+    "kind": "button",
+    "target": "#tv",
+    "legacy-key": "tv",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0035"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0035"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0035"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0035"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0035"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.volumeUp",
+   "label": "音量加",
+   "kind": "button",
+   "legacyKey": "volumeUp",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.volumeUp",
+    "short": "音量 +",
+    "icon": "volumeUp",
+    "order": "8",
+    "label": "音量加",
+    "kind": "button",
+    "target": "#volume-up",
+    "legacy-key": "volumeUp",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0080"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0080"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0080"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0080"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0080"
+     }
+    }
+   ]
+  },
+  {
+   "id": "xiaomi.rc003.volumeDown",
+   "label": "音量减",
+   "kind": "button",
+   "legacyKey": "volumeDown",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "xiaomi.rc003.volumeDown",
+    "short": "音量 -",
+    "icon": "volumeDown",
+    "order": "10",
+    "label": "音量减",
+    "kind": "button",
+    "target": "#volume-down",
+    "legacy-key": "volumeDown",
+    "report": "keyboard",
+    "page": "0x07",
+    "usage": "0x0081"
+   },
+   "sources": [
+    {
+     "report": "keyboard-no-id",
+     "attrs": {
+      "report": "keyboard-no-id",
+      "page": "0x07",
+      "usage": "0x0081"
+     }
+    },
+    {
+     "report": "keyboard-boot",
+     "attrs": {
+      "report": "keyboard-boot",
+      "page": "0x07",
+      "usage": "0x0081"
+     }
+    },
+    {
+     "report": "keyboard-header",
+     "attrs": {
+      "report": "keyboard-header",
+      "page": "0x07",
+      "usage": "0x0081"
+     }
+    },
+    {
+     "report": "keyboard-four-slots",
+     "attrs": {
+      "report": "keyboard-four-slots",
+      "page": "0x07",
+      "usage": "0x0081"
+     }
+    }
+   ]
+  }
+ ],
+ "voices": []
+}

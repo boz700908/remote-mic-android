@@ -1,0 +1,616 @@
+{
+ "kind": "cmiot-a15",
+ "schema": "axonkey.device/1",
+ "id": "cmiot.a15",
+ "vendor": "CMIOT",
+ "model": "CMIOT-A15",
+ "displayName": "移动遥控器 CMIOT-A15",
+ "revision": "1",
+ "identities": [
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x0416",
+   "pid": "0x0300",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "serial-policy": "reject-ambiguous",
+   "required": "true",
+   "usage-page": "0x01",
+   "usage": "0x06",
+   "windows-prefix": "BTHLEDEVICE",
+   "software-contains": "CMIOT3_B311"
+  },
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x050416",
+   "pid": "0x0300",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "serial-policy": "reject-ambiguous",
+   "required": "true",
+   "usage-page": "0x01",
+   "usage": "0x06",
+   "windows-prefix": "BTHLEDEVICE",
+   "software-contains": "CMIOT3_B311"
+  },
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x010416",
+   "pid": "0x0300",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "serial-policy": "reject-ambiguous",
+   "required": "true",
+   "usage-page": "0x01",
+   "usage": "0x06",
+   "windows-prefix": "BTHLEDEVICE",
+   "software-contains": "CMIOT3_B311"
+  }
+ ],
+ "reports": [
+  {
+   "id": "keyboard",
+   "direction": "input",
+   "reportId": "0x01",
+   "length": "9",
+   "encoding": "boot-keyboard",
+   "attrs": {
+    "id": "keyboard",
+    "direction": "input",
+    "report-id": "0x01",
+    "length": "9",
+    "encoding": "boot-keyboard",
+    "usage-page": "0x07",
+    "payload-offset": "3",
+    "slot-count": "6",
+    "prefix": "0x01 0x00 0x00"
+   }
+  },
+  {
+   "id": "consumer",
+   "direction": "input",
+   "reportId": "0x03",
+   "length": "3",
+   "encoding": "le-u16-single",
+   "attrs": {
+    "id": "consumer",
+    "direction": "input",
+    "report-id": "0x03",
+    "length": "3",
+    "encoding": "le-u16-single",
+    "usage-page": "0x0C",
+    "payload-offset": "1"
+   }
+  },
+  {
+   "id": "voice-edge",
+   "direction": "input",
+   "reportId": "0xF8",
+   "length": "21",
+   "encoding": "vendor-state",
+   "attrs": {
+    "id": "voice-edge",
+    "direction": "input",
+    "report-id": "0xF8",
+    "length": "21",
+    "encoding": "vendor-state",
+    "payload-offset": "3",
+    "state-offset": "3",
+    "engine": "cmiot-a15.voice-edge",
+    "prefix": "0xF8 0x82 0x03",
+    "state-max": "1",
+    "zero-tail-offset": "4"
+   }
+  },
+  {
+   "id": "voice-audio",
+   "direction": "input",
+   "reportId": "0xFC",
+   "length": "21",
+   "encoding": "gatt-stream",
+   "attrs": {
+    "id": "voice-audio",
+    "direction": "input",
+    "report-id": "0xFC",
+    "length": "21",
+    "encoding": "gatt-stream",
+    "payload-offset": "3",
+    "engine": "cmiot-a15.g7221"
+   }
+  }
+ ],
+ "inputs": [
+  {
+   "id": "cmiotA15.power",
+   "label": "电源键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.power",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "id": "cmiotA15.power",
+    "label": "电源键",
+    "kind": "button",
+    "target": "#power",
+    "legacy-key": "cmiotA15.power",
+    "original": "true",
+    "short": "电源",
+    "icon": "power",
+    "order": "0"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x0066"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.voice",
+   "label": "语音键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.voice",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "id": "cmiotA15.voice",
+    "label": "语音键",
+    "kind": "button",
+    "target": "#microphone",
+    "legacy-key": "cmiotA15.voice",
+    "original": "true",
+    "short": "语音",
+    "icon": "mic",
+    "order": "1"
+   },
+   "sources": [
+    {
+     "report": "voice-edge",
+     "attrs": {
+      "report": "voice-edge",
+      "engine": "cmiot-a15.voice-edge",
+      "field": "state",
+      "equals": "1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.up",
+   "label": "方向上",
+   "kind": "button",
+   "legacyKey": "cmiotA15.up",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.up",
+    "label": "方向上",
+    "kind": "button",
+    "target": "#up",
+    "legacy-key": "cmiotA15.up",
+    "short": "上",
+    "icon": "up",
+    "order": "2"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x0052"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.left",
+   "label": "方向左",
+   "kind": "button",
+   "legacyKey": "cmiotA15.left",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.left",
+    "label": "方向左",
+    "kind": "button",
+    "target": "#left",
+    "legacy-key": "cmiotA15.left",
+    "short": "左",
+    "icon": "left",
+    "order": "3"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x0050"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.confirm",
+   "label": "确认键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.confirm",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.confirm",
+    "label": "确认键",
+    "kind": "button",
+    "target": "#ok",
+    "legacy-key": "cmiotA15.confirm",
+    "short": "确认",
+    "icon": "center",
+    "order": "4"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x0041"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.right",
+   "label": "方向右",
+   "kind": "button",
+   "legacyKey": "cmiotA15.right",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.right",
+    "label": "方向右",
+    "kind": "button",
+    "target": "#right",
+    "legacy-key": "cmiotA15.right",
+    "short": "右",
+    "icon": "right",
+    "order": "5"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x004F"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.down",
+   "label": "方向下",
+   "kind": "button",
+   "legacyKey": "cmiotA15.down",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.down",
+    "label": "方向下",
+    "kind": "button",
+    "target": "#down",
+    "legacy-key": "cmiotA15.down",
+    "short": "下",
+    "icon": "down",
+    "order": "6"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x0051"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.back",
+   "label": "返回键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.back",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.back",
+    "label": "返回键",
+    "kind": "button",
+    "target": "#back",
+    "legacy-key": "cmiotA15.back",
+    "short": "返回",
+    "icon": "back",
+    "order": "7"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x0224"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.home",
+   "label": "主页键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.home",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.home",
+    "label": "主页键",
+    "kind": "button",
+    "target": "#home",
+    "legacy-key": "cmiotA15.home",
+    "short": "主页",
+    "icon": "home",
+    "order": "9"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x0223"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.volumeUp",
+   "label": "音量加",
+   "kind": "button",
+   "legacyKey": "cmiotA15.volumeUp",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.volumeUp",
+    "label": "音量加",
+    "kind": "button",
+    "target": "#volume-up",
+    "legacy-key": "cmiotA15.volumeUp",
+    "short": "音量 +",
+    "icon": "volumeUp",
+    "order": "8"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x00E9"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.volumeDown",
+   "label": "音量减",
+   "kind": "button",
+   "legacyKey": "cmiotA15.volumeDown",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.volumeDown",
+    "label": "音量减",
+    "kind": "button",
+    "target": "#volume-down",
+    "legacy-key": "cmiotA15.volumeDown",
+    "short": "音量 -",
+    "icon": "volumeDown",
+    "order": "10"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x00EA"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.menu",
+   "label": "菜单键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.menu",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.menu",
+    "label": "菜单键",
+    "kind": "button",
+    "target": "#menu",
+    "legacy-key": "cmiotA15.menu",
+    "short": "功能",
+    "icon": "menu",
+    "order": "11"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x0065"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.mute",
+   "label": "静音键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.mute",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.mute",
+    "label": "静音键",
+    "kind": "button",
+    "target": "#mute",
+    "legacy-key": "cmiotA15.mute",
+    "short": "静音",
+    "icon": "mute",
+    "order": "12"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x00E2"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.settings",
+   "label": "设置键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.settings",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.settings",
+    "label": "设置键",
+    "kind": "button",
+    "target": "#settings",
+    "legacy-key": "cmiotA15.settings",
+    "short": "设置",
+    "icon": "settings",
+    "order": "13"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x00EB"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.channelUp",
+   "label": "频道加",
+   "kind": "button",
+   "legacyKey": "cmiotA15.channelUp",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.channelUp",
+    "label": "频道加",
+    "kind": "button",
+    "target": "#channel-up",
+    "legacy-key": "cmiotA15.channelUp",
+    "short": "频道 +",
+    "icon": "up",
+    "order": "14"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x004B"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.channelDown",
+   "label": "频道减",
+   "kind": "button",
+   "legacyKey": "cmiotA15.channelDown",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.channelDown",
+    "label": "频道减",
+    "kind": "button",
+    "target": "#channel-down",
+    "legacy-key": "cmiotA15.channelDown",
+    "short": "频道 -",
+    "icon": "down",
+    "order": "15"
+   },
+   "sources": [
+    {
+     "report": "keyboard",
+     "attrs": {
+      "report": "keyboard",
+      "page": "0x07",
+      "usage": "0x004E"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cmiotA15.m",
+   "label": "M 键",
+   "kind": "button",
+   "legacyKey": "cmiotA15.m",
+   "original": true,
+   "pending": false,
+   "attrs": {
+    "original": "true",
+    "id": "cmiotA15.m",
+    "label": "M 键",
+    "kind": "button",
+    "target": "#m",
+    "legacy-key": "cmiotA15.m",
+    "short": "M",
+    "icon": "m",
+    "order": "16"
+   },
+   "sources": [
+    {
+     "report": "consumer",
+     "attrs": {
+      "report": "consumer",
+      "page": "0x0C",
+      "usage": "0x00F0"
+     }
+    }
+   ]
+  }
+ ],
+ "voices": []
+}

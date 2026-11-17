@@ -27,7 +27,12 @@ import com.boz700908.remotemic.core.PcmPlayer
 import com.boz700908.remotemic.core.SettingsStore
 import com.boz700908.remotemic.core.Transcript
 import com.boz700908.remotemic.core.VolumeController
+import com.boz700908.remotemic.device.DescriptorEngine
+import com.boz700908.remotemic.device.DeviceDescriptor
+import com.boz700908.remotemic.device.InputSpec
+import com.boz700908.remotemic.device.RemoteActions
 import com.boz700908.remotemic.inject.Injector
+import com.boz700908.remotemic.inject.KeyInjector
 import com.boz700908.remotemic.protocol.AtvvCapabilities
 import com.boz700908.remotemic.protocol.AtvvProtocol
 import com.boz700908.remotemic.protocol.PcmPostprocessor
@@ -62,6 +67,8 @@ class BridgeService : Service(), RemoteGatt.Listener {
     private var sessionSamples = 0
     private var sessionStartAt = 0L
     private var lastUsages: Set<Int> = emptySet()
+    private var lastInputs: Set<String> = emptySet()
+    private var profile: DeviceDescriptor? = null
     private var lastLevelUpdate = 0L
 
     override fun onCreate() {
@@ -323,19 +330,63 @@ class BridgeService : Service(), RemoteGatt.Listener {
         }
     }
 
+    override fun onDescriptor(descriptor: DeviceDescriptor) {
+        profile = descriptor
+        BridgeState.deviceProfile.value = descriptor.displayName
+        lastInputs = emptySet()
+        KeyInjector.refresh(force = true)
+    }
+
+    /** 描述符解出的按键：只对「新按下」的输入触发动作。 */
+    override fun onHidDecoded(decoded: DescriptorEngine.Decoded) {
+        val d = profile ?: return
+        val now = decoded.pressed.toSet()
+        val fresh = now - lastInputs
+        lastInputs = now
+        for (id in fresh) {
+            val input = d.inputs.firstOrNull { it.id == id } ?: continue
+            dispatchInput(input)
+        }
+    }
+
+    private fun isVoiceInput(input: InputSpec): Boolean =
+        input.target == "#microphone" || input.icon == "mic" || input.label.contains("语音")
+
+    private fun dispatchInput(input: InputSpec) {
+        BridgeState.lastKey.value = input.label
+        if (isVoiceInput(input)) {
+            if (!gatt.isStreaming) gatt.openMicrophone()
+            return
+        }
+        if (!settings.forwardKeys) return
+        val src = input.sources.firstOrNull { it.page != null && it.usage != null }
+        val page = src?.page ?: 0
+        val usage = src?.usage ?: 0
+        val keyCode = RemoteActions.keyCodeFor(page, usage)
+        if (keyCode != 0 && KeyInjector.tap(keyCode)) return
+        // 注入不可用（未 root）：退回无障碍能做的全局动作
+        if (usage != 0) dispatchUsage(usage)
+    }
+
     override fun onHidUsages(usages: List<Int>) {
         val now = usages.toSet()
         val pressed = now - lastUsages
         lastUsages = now
-        for (usage in pressed) {
+        for (usage in pressed) dispatchUsage(usage)
+    }
+
+    private fun dispatchUsage(usage: Int) {
+        run {
             if (usage == RemoteButton.VOICE_KEY_F5) {
                 BridgeState.lastKey.value = "语音键"
                 if (!gatt.isStreaming) gatt.openMicrophone()
-                continue
+                return
             }
-            val button = RemoteButton.from(usage) ?: continue
+            val button = RemoteButton.from(usage) ?: return
             BridgeState.lastKey.value = button.label
-            if (!settings.forwardKeys) continue
+            if (!settings.forwardKeys) return
+            val keyCode = RemoteActions.keyCodeFor(RemoteActions.PAGE_KEYBOARD, usage)
+            if (keyCode != 0 && KeyInjector.tap(keyCode)) return
             when (button) {
                 RemoteButton.BACK -> Injector.globalBack()
                 RemoteButton.HOME -> Injector.globalHome()

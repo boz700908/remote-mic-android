@@ -1,0 +1,429 @@
+{
+ "kind": "phicomm-db1-r",
+ "schema": "axonkey.device/1",
+ "id": "phicomm-db1-r",
+ "vendor": "斐讯",
+ "model": "DB1-R",
+ "displayName": "斐讯 DB1-R",
+ "revision": "2",
+ "identities": [
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x01005D",
+   "pid": "0x0001",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "windows-prefix": "BTHLEDEVICE",
+   "serial-policy": "reject-ambiguous",
+   "required": "true"
+  }
+ ],
+ "reports": [
+  {
+   "id": "captured-buttons-9",
+   "direction": "input",
+   "reportId": "0x01",
+   "length": "9",
+   "encoding": "bit-field",
+   "attrs": {
+    "id": "captured-buttons-9",
+    "direction": "input",
+    "report-id": "0x01",
+    "length": "9",
+    "encoding": "bit-field",
+    "prefix": "0x01 0x00 0x00",
+    "state-group": "captured-buttons-9"
+   }
+  },
+  {
+   "id": "captured-buttons-3",
+   "direction": "input",
+   "reportId": "0x02",
+   "length": "3",
+   "encoding": "bit-field",
+   "attrs": {
+    "id": "captured-buttons-3",
+    "direction": "input",
+    "report-id": "0x02",
+    "length": "3",
+    "encoding": "bit-field",
+    "prefix": "0x02",
+    "state-group": "captured-buttons-3"
+   }
+  }
+ ],
+ "inputs": [
+  {
+   "id": "phicomm-db1-r.ottPower",
+   "label": "OTT 电源键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.ottPower",
+    "label": "OTT 电源键",
+    "short": "OTT",
+    "icon": "power",
+    "kind": "button",
+    "order": "0",
+    "target": "#key-ottPower",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-9",
+     "attrs": {
+      "report": "captured-buttons-9",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x66"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.up",
+   "label": "方向上",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.up",
+    "label": "方向上",
+    "short": "上",
+    "icon": "up",
+    "kind": "button",
+    "order": "2",
+    "target": "#key-up",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-9",
+     "attrs": {
+      "report": "captured-buttons-9",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x52"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.right",
+   "label": "方向右",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.right",
+    "label": "方向右",
+    "short": "右",
+    "icon": "right",
+    "kind": "button",
+    "order": "3",
+    "target": "#key-right",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-9",
+     "attrs": {
+      "report": "captured-buttons-9",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x4F"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.down",
+   "label": "方向下",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.down",
+    "label": "方向下",
+    "short": "下",
+    "icon": "down",
+    "kind": "button",
+    "order": "4",
+    "target": "#key-down",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-9",
+     "attrs": {
+      "report": "captured-buttons-9",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x51"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.left",
+   "label": "方向左",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.left",
+    "label": "方向左",
+    "short": "左",
+    "icon": "left",
+    "kind": "button",
+    "order": "5",
+    "target": "#key-left",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-9",
+     "attrs": {
+      "report": "captured-buttons-9",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x50"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.confirm",
+   "label": "确认键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.confirm",
+    "label": "确认键",
+    "short": "确认",
+    "icon": "center",
+    "kind": "button",
+    "order": "6",
+    "target": "#key-confirm",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-9",
+     "attrs": {
+      "report": "captured-buttons-9",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x28"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.back",
+   "label": "返回键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.back",
+    "label": "返回键",
+    "short": "返回",
+    "icon": "back",
+    "kind": "button",
+    "order": "7",
+    "target": "#key-back",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-3",
+     "attrs": {
+      "report": "captured-buttons-3",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0224"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.voice",
+   "label": "语音键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.voice",
+    "label": "语音键",
+    "short": "语音",
+    "icon": "mic",
+    "kind": "button",
+    "order": "8",
+    "target": "#key-voice",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-9",
+     "attrs": {
+      "report": "captured-buttons-9",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x3E"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.volumeUp",
+   "label": "音量加",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.volumeUp",
+    "label": "音量加",
+    "short": "音量 +",
+    "icon": "volumeUp",
+    "kind": "button",
+    "order": "9",
+    "target": "#key-volumeUp",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-3",
+     "attrs": {
+      "report": "captured-buttons-3",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x00E9"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.home",
+   "label": "主页键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.home",
+    "label": "主页键",
+    "short": "主页",
+    "icon": "home",
+    "kind": "button",
+    "order": "10",
+    "target": "#key-home",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-3",
+     "attrs": {
+      "report": "captured-buttons-3",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0223"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.menu",
+   "label": "菜单键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.menu",
+    "label": "菜单键",
+    "short": "菜单",
+    "icon": "menu",
+    "kind": "button",
+    "order": "11",
+    "target": "#key-menu",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-3",
+     "attrs": {
+      "report": "captured-buttons-3",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x0040"
+     }
+    }
+   ]
+  },
+  {
+   "id": "phicomm-db1-r.volumeDown",
+   "label": "音量减",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "phicomm-db1-r.volumeDown",
+    "label": "音量减",
+    "short": "音量 -",
+    "icon": "volumeDown",
+    "kind": "button",
+    "order": "12",
+    "target": "#key-volumeDown",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons-3",
+     "attrs": {
+      "report": "captured-buttons-3",
+      "offset": "1",
+      "bit": "0",
+      "width": "16",
+      "equals": "0x00EA"
+     }
+    }
+   ]
+  }
+ ],
+ "voices": []
+}

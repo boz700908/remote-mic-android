@@ -1,0 +1,615 @@
+{
+ "kind": "hisense-rcf3b65",
+ "schema": "axonkey.device/1",
+ "id": "hisense-rcf3b65",
+ "vendor": "Hisense",
+ "model": "RCF3B65",
+ "displayName": "Hisense RCF3B65",
+ "revision": "2",
+ "identities": [
+  {
+   "transport": "bluetooth-hid",
+   "vid": "0x01109B",
+   "pid": "0x3837",
+   "service": "00001812-0000-1000-8000-00805F9B34FB",
+   "windows-prefix": "BTHLEDEVICE",
+   "serial-policy": "reject-ambiguous",
+   "required": "true"
+  }
+ ],
+ "reports": [
+  {
+   "id": "captured-buttons",
+   "direction": "input",
+   "reportId": "0x01",
+   "length": "9",
+   "encoding": "bit-field",
+   "attrs": {
+    "id": "captured-buttons",
+    "direction": "input",
+    "report-id": "0x01",
+    "length": "9",
+    "encoding": "bit-field",
+    "prefix": "0x01 0x00 0x00",
+    "state-group": "captured-buttons"
+   }
+  },
+  {
+   "id": "captured-pointer",
+   "direction": "input",
+   "reportId": "0x6F",
+   "length": "9",
+   "encoding": "bit-field",
+   "attrs": {
+    "id": "captured-pointer",
+    "direction": "input",
+    "report-id": "0x6F",
+    "length": "9",
+    "encoding": "bit-field",
+    "prefix": "0x6F 0x6A",
+    "state-group": "captured-pointer"
+   }
+  }
+ ],
+ "inputs": [
+  {
+   "id": "hisense-rcf3b65.power",
+   "label": "电源键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.power",
+    "label": "电源键",
+    "short": "电源",
+    "icon": "power",
+    "kind": "button",
+    "order": "0",
+    "target": "#key-power",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x66"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.input",
+   "label": "信号源",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.input",
+    "label": "信号源",
+    "short": "信号源",
+    "icon": "tv",
+    "kind": "button",
+    "order": "1",
+    "target": "#key-input",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xBB"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.ai",
+   "label": "AI 键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.ai",
+    "label": "AI 键",
+    "short": "AI",
+    "icon": "center",
+    "kind": "button",
+    "order": "2",
+    "target": "#key-ai",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xA5"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.pointer",
+   "label": "指向键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.pointer",
+    "label": "指向键",
+    "short": "指向",
+    "icon": "locate",
+    "kind": "button",
+    "order": "3",
+    "target": "#key-pointer",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-pointer",
+     "attrs": {
+      "report": "captured-pointer",
+      "offset": "2",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x01"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.tv",
+   "label": "看电视",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.tv",
+    "label": "看电视",
+    "short": "看电视",
+    "icon": "tv",
+    "kind": "button",
+    "order": "4",
+    "target": "#key-tv",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xB0"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.shortcut",
+   "label": "快捷键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.shortcut",
+    "label": "快捷键",
+    "short": "快捷",
+    "icon": "center",
+    "kind": "button",
+    "order": "5",
+    "target": "#key-shortcut",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x94"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.up",
+   "label": "方向上",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.up",
+    "label": "方向上",
+    "short": "上",
+    "icon": "up",
+    "kind": "button",
+    "order": "6",
+    "target": "#key-up",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x52"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.right",
+   "label": "方向右",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.right",
+    "label": "方向右",
+    "short": "右",
+    "icon": "right",
+    "kind": "button",
+    "order": "7",
+    "target": "#key-right",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x4F"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.down",
+   "label": "方向下",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.down",
+    "label": "方向下",
+    "short": "下",
+    "icon": "down",
+    "kind": "button",
+    "order": "8",
+    "target": "#key-down",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x51"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.left",
+   "label": "方向左",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.left",
+    "label": "方向左",
+    "short": "左",
+    "icon": "left",
+    "kind": "button",
+    "order": "9",
+    "target": "#key-left",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x50"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.confirm",
+   "label": "确认键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.confirm",
+    "label": "确认键",
+    "short": "确认",
+    "icon": "center",
+    "kind": "button",
+    "order": "10",
+    "target": "#key-confirm",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x28"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.back",
+   "label": "返回键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.back",
+    "label": "返回键",
+    "short": "返回",
+    "icon": "back",
+    "kind": "button",
+    "order": "11",
+    "target": "#key-back",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x71"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.voice",
+   "label": "语音键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.voice",
+    "label": "语音键",
+    "short": "语音",
+    "icon": "mic",
+    "kind": "button",
+    "order": "12",
+    "target": "#key-voice",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xDF"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.home",
+   "label": "主页键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.home",
+    "label": "主页键",
+    "short": "主页",
+    "icon": "home",
+    "kind": "button",
+    "order": "13",
+    "target": "#key-home",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xE3"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.settings",
+   "label": "设置键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.settings",
+    "label": "设置键",
+    "short": "设置",
+    "icon": "settings",
+    "kind": "button",
+    "order": "14",
+    "target": "#key-settings",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0xEF"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.menu",
+   "label": "菜单键",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.menu",
+    "label": "菜单键",
+    "short": "菜单",
+    "icon": "menu",
+    "kind": "button",
+    "order": "15",
+    "target": "#key-menu",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x72"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.volumeDown",
+   "label": "音量减",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.volumeDown",
+    "label": "音量减",
+    "short": "音量 -",
+    "icon": "volumeDown",
+    "kind": "button",
+    "order": "16",
+    "target": "#key-volumeDown",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x81"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hisense-rcf3b65.volumeUp",
+   "label": "音量加",
+   "kind": "button",
+   "legacyKey": null,
+   "original": false,
+   "pending": false,
+   "attrs": {
+    "id": "hisense-rcf3b65.volumeUp",
+    "label": "音量加",
+    "short": "音量 +",
+    "icon": "volumeUp",
+    "kind": "button",
+    "order": "17",
+    "target": "#key-volumeUp",
+    "original": "false",
+    "binding": "captured"
+   },
+   "sources": [
+    {
+     "report": "captured-buttons",
+     "attrs": {
+      "report": "captured-buttons",
+      "offset": "3",
+      "bit": "0",
+      "width": "8",
+      "equals": "0x80"
+     }
+    }
+   ]
+  }
+ ],
+ "voices": []
+}

@@ -40,6 +40,9 @@ object BridgeState {
     val a11yEnabled = MutableStateFlow(false)
     val lastKey = MutableStateFlow("")
 
+    /** 识别出的机型名；空串表示还在用通用描述符。 */
+    val deviceProfile = MutableStateFlow("")
+
     fun reset() {
         caps.value = null
         capsText.value = ""
