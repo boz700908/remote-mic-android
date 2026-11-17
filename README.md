@@ -21,8 +21,9 @@
 | 识别结果写入输入框（无障碍 `ACTION_SET_TEXT`） | 已实现 |
 | HID 按键报告解码（12 款机型描述符） | 已实现 |
 | 按键注入为真实按键事件（root） | 已实现 |
-| 按键注入（Shizuku / `uinput` 长按与组合键） | 规划中 |
-| 自定义按键映射（inputId → 动作）与配置档 | 规划中 |
+| 按键注入（Shizuku / `uinput` 常驻守护，支持长按与真组合键） | 已实现 |
+| 自定义按键映射（inputId → 动作），按机型持久化 | 已实现 |
+| 配置档（多套映射一键切换） | 规划中 |
 
 ## 支持的机型
 
@@ -64,9 +65,26 @@
 
 推理使用 `sherpa-onnx` 2.0.1（AAR 由 CI 下载并缓存）。
 
+## 按键映射
+
+「映射」页列出当前机型描述符里解析出的每个按键，逐个绑成动作；没绑的键保持原样转发。
+
+| 动作串 | 含义 |
+| --- | --- |
+| `key:CTRL+SHIFT+V` | 发组合键；`F5@800` 表示按住 800 毫秒 |
+| `text:你好` | 写进当前焦点输入框（需无障碍） |
+| `app:com.tencent.mm` | 启动该包名的主界面（Android 11+ 靠 `<queries>` 可见性） |
+| `url:https://example.com` | 仅 http/https，用浏览器打开 |
+| `act:back` | 系统动作：`back` `home` `recents` `menu` `vol_up` `vol_down` `mute` `media_play_pause` `media_next` `media_prev` `scroll_up` `scroll_down` `paste` `voice` `none` |
+| `none` | 屏蔽该键 |
+
+键名解析不认错就整体放弃（宁可不发，也不发半个组合键）；注入失败返回「未处理」，按键继续走默认转发，不静默丢键。
+
 ## 注入通道
 
-- **root**：`su -c input keyevent/keycombination`，可发真实按键与组合键
+- **root + `uinput`**：常驻守护进程（`libuinputd.so`），可按住、可发真实组合键
+- **root（无 `/dev/uinput`）**：退回 `su -c input keyevent/keycombination`
+- **Shizuku**：无 root 时用 Shizuku 权限发按键
 - 无 root 时：退回无障碍全局动作（返回/主页/最近任务/滚动）与音量键，不静默丢弃按键
 - 文字注入：无障碍 `ACTION_SET_TEXT`，需在系统设置里启用本应用的无障碍服务
 
