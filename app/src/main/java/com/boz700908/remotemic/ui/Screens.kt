@@ -446,7 +446,8 @@ fun SettingsScreen(padding: PaddingValues) {
             ) {
                 Text("按键注入通道", style = MaterialTheme.typography.titleSmall)
                 Text(
-                    "把遥控器按键变成真实按键事件，需要一个有 shell 身份的通道：root 优先（能写 uinput 就支持按住与真组合键），其次是 Shizuku。" +
+                    "把遥控器按键变成真实按键事件，需要一个有 shell 身份的通道：root 优先（能写 uinput 就支持按住、真组合键与长按）；" +
+                        "没有 root 时用 Shizuku：授权后会拉起一个 shell 身份的服务，能力与 uinput 相同。" +
                         "当前：${injectChannel.label}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -462,9 +463,16 @@ fun SettingsScreen(padding: PaddingValues) {
                         },
                         enabled = shizukuReady &&
                             injectChannel != KeyInjector.Channel.ROOT &&
-                            injectChannel != KeyInjector.Channel.UINPUT,
+                            injectChannel != KeyInjector.Channel.UINPUT &&
+                            injectChannel != KeyInjector.Channel.SHIZUKU_SVC,
                     ) {
-                        Text(if (injectChannel == KeyInjector.Channel.SHIZUKU) "Shizuku 已授权" else "授权 Shizuku")
+                        Text(
+                            when (injectChannel) {
+                                KeyInjector.Channel.SHIZUKU_SVC -> "Shizuku 服务已就绪"
+                                KeyInjector.Channel.SHIZUKU -> "Shizuku 已授权"
+                                else -> "授权 Shizuku"
+                            },
+                        )
                     }
                     OutlinedButton(onClick = {
                         injectChannel = KeyInjector.refresh(force = true)
@@ -484,6 +492,20 @@ fun SettingsScreen(padding: PaddingValues) {
                 if (injectChannel == KeyInjector.Channel.UINPUT) {
                     Text(
                         "uinput 虚拟键盘已就绪：按键是真正的按下/抬起，可长按、可组合键。",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (injectChannel == KeyInjector.Channel.SHIZUKU_SVC) {
+                    Text(
+                        "Shizuku 服务已就绪：以 shell 身份直接注入按键事件，免 root 也支持按住、真组合键与长按。",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (injectChannel == KeyInjector.Channel.SHIZUKU) {
+                    Text(
+                        "Shizuku 已授权，但注入服务尚未连上（首次授权后需几秒拉起）。当前只能整按，稍后点「重新检测」。",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

@@ -52,6 +52,11 @@
             </intent-filter>
         </activity>
 
+        <!-- Shizuku UserService：以 shell 身份运行，直接 injectInputEvent 注入真键盘事件 -->
+        <service
+            android:name=".inject.KeyUserService"
+            android:exported="false" />
+
         <service
             android:name=".service.BridgeService"
             android:exported="false"

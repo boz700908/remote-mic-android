@@ -12,8 +12,8 @@ android {
         applicationId = "com.boz700908.remotemic"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.4.0"
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
     }
 
@@ -32,7 +32,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
-    buildFeatures { compose = true }
+    buildFeatures {
+        compose = true
+        // Shizuku UserService 用的 IKeyService.aidl 需要 AIDL 生成器
+        aidl = true
+    }
     packaging {
         resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}")
         // libuinputd.so 是可执行文件，必须解压到 nativeLibraryDir 才能被 su 拉起
