@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -43,6 +44,7 @@ import com.boz700908.remotemic.asr.AsrModels
 import com.boz700908.remotemic.core.AppSettings
 import com.boz700908.remotemic.core.BridgeState
 import com.boz700908.remotemic.core.SettingsStore
+import com.boz700908.remotemic.inject.KeyInjector
 import com.boz700908.remotemic.protocol.RemoteButton
 import com.boz700908.remotemic.service.BridgeService
 import kotlinx.coroutines.launch
@@ -413,6 +415,9 @@ fun SettingsScreen(padding: PaddingValues) {
     val a11yEnabled by BridgeState.a11yEnabled.collectAsState()
     val scope = rememberCoroutineScope()
     var gain by remember(settings.gainDb) { mutableFloatStateOf(settings.gainDb) }
+    var injectChannel by remember { mutableStateOf(KeyInjector.refresh(force = true)) }
+    var shizukuReady by remember { mutableStateOf(KeyInjector.shizukuUsable()) }
+    var shizukuHint by remember { mutableStateOf<String?>(null) }
 
     ScreenColumn(padding) {
         Card(modifier = Modifier.fillMaxWidth()) {
@@ -430,6 +435,56 @@ fun SettingsScreen(padding: PaddingValues) {
                     context.startActivity(Intent(AndroidSettings.ACTION_ACCESSIBILITY_SETTINGS))
                 }) {
                     Text(if (a11yEnabled) "无障碍已开启 · 去查看" else "去开启无障碍服务")
+                }
+            }
+        }
+
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text("按键注入通道", style = MaterialTheme.typography.titleSmall)
+                Text(
+                    "把遥控器按键变成真实按键事件，需要一个有 shell 身份的通道：root 优先，其次是 Shizuku。" +
+                        "当前：${injectChannel.label}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(
+                        onClick = {
+                            if (KeyInjector.requestShizuku()) {
+                                shizukuHint = "已向 Shizuku 申请授权，同意后点「重新检测」"
+                            } else {
+                                shizukuHint = if (shizukuReady) "Shizuku 已授权" else "未检测到 Shizuku，请先安装并启动它"
+                            }
+                        },
+                        enabled = shizukuReady && injectChannel != KeyInjector.Channel.ROOT,
+                    ) {
+                        Text(if (injectChannel == KeyInjector.Channel.SHIZUKU) "Shizuku 已授权" else "授权 Shizuku")
+                    }
+                    OutlinedButton(onClick = {
+                        injectChannel = KeyInjector.refresh(force = true)
+                        shizukuReady = KeyInjector.shizukuUsable()
+                        shizukuHint = null
+                    }) {
+                        Text("重新检测")
+                    }
+                }
+                if (shizukuHint != null) {
+                    Text(
+                        shizukuHint!!,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (injectChannel == KeyInjector.Channel.NONE) {
+                    Text(
+                        "当前只能退回无障碍全局动作（返回 / 主页 / 最近任务 / 音量），方向键与 OK 无法当真实按键发送。",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
         }

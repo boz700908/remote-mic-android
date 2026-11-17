@@ -57,4 +57,8 @@ dependencies {
 
     // 离线识别：官方预编译 AAR（scripts/fetch-sherpa-aar.sh 下载到 app/libs/）
     implementation(files("libs/sherpa-onnx-2.0.1.aar"))
+
+    // 免 root 的 shell 身份（按键注入第二通道）：Shizuku API + provider
+    implementation("dev.rikka.shizuku:api:13.1.5")
+    implementation("dev.rikka.shizuku:provider:13.1.5")
 }
