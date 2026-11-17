@@ -446,7 +446,7 @@ fun SettingsScreen(padding: PaddingValues) {
             ) {
                 Text("按键注入通道", style = MaterialTheme.typography.titleSmall)
                 Text(
-                    "把遥控器按键变成真实按键事件，需要一个有 shell 身份的通道：root 优先，其次是 Shizuku。" +
+                    "把遥控器按键变成真实按键事件，需要一个有 shell 身份的通道：root 优先（能写 uinput 就支持按住与真组合键），其次是 Shizuku。" +
                         "当前：${injectChannel.label}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -460,7 +460,9 @@ fun SettingsScreen(padding: PaddingValues) {
                                 shizukuHint = if (shizukuReady) "Shizuku 已授权" else "未检测到 Shizuku，请先安装并启动它"
                             }
                         },
-                        enabled = shizukuReady && injectChannel != KeyInjector.Channel.ROOT,
+                        enabled = shizukuReady &&
+                            injectChannel != KeyInjector.Channel.ROOT &&
+                            injectChannel != KeyInjector.Channel.UINPUT,
                     ) {
                         Text(if (injectChannel == KeyInjector.Channel.SHIZUKU) "Shizuku 已授权" else "授权 Shizuku")
                     }
@@ -475,6 +477,20 @@ fun SettingsScreen(padding: PaddingValues) {
                 if (shizukuHint != null) {
                     Text(
                         shizukuHint!!,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (injectChannel == KeyInjector.Channel.UINPUT) {
+                    Text(
+                        "uinput 虚拟键盘已就绪：按键是真正的按下/抬起，可长按、可组合键。",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (injectChannel == KeyInjector.Channel.ROOT) {
+                    Text(
+                        "root 已就绪，但 /dev/uinput 打不开，只能整按（无长按/组合）。可尝试在 root 管理里给本应用授权。",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

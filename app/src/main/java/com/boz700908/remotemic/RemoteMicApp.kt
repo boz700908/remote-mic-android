@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.os.Build
 import com.boz700908.remotemic.core.BridgeState
 import com.boz700908.remotemic.inject.Injector
+import com.boz700908.remotemic.inject.KeyInjector
 
 class RemoteMicApp : Application() {
     override fun onCreate() {
@@ -19,6 +20,7 @@ class RemoteMicApp : Application() {
             ).apply { description = "保持与小米蓝牙遥控器的连接并接收语音" }
             nm.createNotificationChannel(ch)
         }
+        KeyInjector.init(this)
         BridgeState.a11yEnabled.value = Injector.isEnabled(this)
     }
 

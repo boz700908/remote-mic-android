@@ -35,6 +35,8 @@ android {
     buildFeatures { compose = true }
     packaging {
         resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}")
+        // libuinputd.so 是可执行文件，必须解压到 nativeLibraryDir 才能被 su 拉起
+        jniLibs { useLegacyPackaging = true }
     }
 }
 
