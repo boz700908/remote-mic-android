@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import com.boz700908.remotemic.core.BridgeState
+import com.boz700908.remotemic.core.KeymapStore
 import com.boz700908.remotemic.inject.Injector
 import com.boz700908.remotemic.inject.KeyInjector
 
@@ -21,6 +22,7 @@ class RemoteMicApp : Application() {
             nm.createNotificationChannel(ch)
         }
         KeyInjector.init(this)
+        KeymapStore.init(this)
         BridgeState.a11yEnabled.value = Injector.isEnabled(this)
     }
 

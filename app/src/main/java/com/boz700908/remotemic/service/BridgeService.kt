@@ -23,14 +23,17 @@ import com.boz700908.remotemic.bt.RemoteGatt
 import com.boz700908.remotemic.core.AppSettings
 import com.boz700908.remotemic.core.BridgeState
 import com.boz700908.remotemic.core.FoundDevice
+import com.boz700908.remotemic.core.KeymapStore
 import com.boz700908.remotemic.core.PcmPlayer
 import com.boz700908.remotemic.core.SettingsStore
+import com.boz700908.remotemic.core.RemoteInput
 import com.boz700908.remotemic.core.Transcript
 import com.boz700908.remotemic.core.VolumeController
 import com.boz700908.remotemic.device.DescriptorEngine
 import com.boz700908.remotemic.device.DeviceDescriptor
 import com.boz700908.remotemic.device.InputSpec
 import com.boz700908.remotemic.device.RemoteActions
+import com.boz700908.remotemic.inject.ActionRunner
 import com.boz700908.remotemic.inject.Injector
 import com.boz700908.remotemic.inject.KeyInjector
 import com.boz700908.remotemic.protocol.AtvvCapabilities
@@ -333,6 +336,20 @@ class BridgeService : Service(), RemoteGatt.Listener {
     override fun onDescriptor(descriptor: DeviceDescriptor) {
         profile = descriptor
         BridgeState.deviceProfile.value = descriptor.displayName
+        BridgeState.deviceId.value = descriptor.id
+        BridgeState.remoteInputs.value = descriptor.inputs.map { input ->
+            val src = input.sources.firstOrNull { it.page != null && it.usage != null }
+            val page = src?.page ?: 0
+            val usage = src?.usage ?: 0
+            RemoteInput(
+                id = input.id,
+                label = input.label,
+                kind = input.kind,
+                page = page,
+                usage = usage,
+                legacyKey = RemoteActions.keyCodeFor(page, usage),
+            )
+        }
         lastInputs = emptySet()
         KeyInjector.refresh(force = true)
     }
@@ -358,11 +375,21 @@ class BridgeService : Service(), RemoteGatt.Listener {
             if (!gatt.isStreaming) gatt.openMicrophone()
             return
         }
-        if (!settings.forwardKeys) return
         val src = input.sources.firstOrNull { it.page != null && it.usage != null }
-        val page = src?.page ?: 0
         val usage = src?.usage ?: 0
-        val keyCode = RemoteActions.keyCodeFor(page, usage)
+        val keyCode = RemoteActions.keyCodeFor(src?.page ?: 0, usage)
+
+        // 这个键绑过动作就先试绑定：做不成就照旧转发，不静默丢键。
+        val action = KeymapStore.actionFor(BridgeState.deviceId.value, input.id)
+        if (action != null) {
+            if (ActionRunner.isVoice(action)) {
+                if (!gatt.isStreaming) gatt.openMicrophone()
+                return
+            }
+            if (ActionRunner.run(this, action, keyCode).handled) return
+        }
+
+        if (!settings.forwardKeys) return
         if (keyCode != 0 && KeyInjector.tap(keyCode)) return
         // 注入不可用（未 root）：退回无障碍能做的全局动作
         if (usage != 0) dispatchUsage(usage)
@@ -384,6 +411,20 @@ class BridgeService : Service(), RemoteGatt.Listener {
             }
             val button = RemoteButton.from(usage) ?: return
             BridgeState.lastKey.value = button.label
+
+            // 老式 HID 兜底通道拿不到 input id，用 usage_<hex> 当键名。
+            val action = KeymapStore.actionFor(
+                BridgeState.deviceId.value,
+                "usage_%x".format(usage),
+            )
+            if (action != null) {
+                if (ActionRunner.isVoice(action)) {
+                    if (!gatt.isStreaming) gatt.openMicrophone()
+                    return
+                }
+                if (ActionRunner.run(this, action, 0).handled) return
+            }
+
             if (!settings.forwardKeys) return
             val keyCode = RemoteActions.keyCodeFor(RemoteActions.PAGE_KEYBOARD, usage)
             if (keyCode != 0 && KeyInjector.tap(keyCode)) return

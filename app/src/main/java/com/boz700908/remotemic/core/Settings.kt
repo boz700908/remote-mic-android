@@ -9,7 +9,11 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore by preferencesDataStore("settings")
+/**
+ * 全部偏好在同一个文件里。DataStore 不允许同文件开两个实例，
+ * 所以按键映射（[KeymapStore]）也走这个属性，不要另建 preferencesDataStore。
+ */
+internal val Context.dataStore by preferencesDataStore("settings")
 
 data class AppSettings(
     val modelId: String = "sense_voice",

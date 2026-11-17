@@ -7,6 +7,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bluetooth
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Settings
@@ -37,6 +38,7 @@ private val Tabs = listOf(
     Tab("连接", Icons.Filled.Bluetooth),
     Tab("识别", Icons.Filled.Mic),
     Tab("模型", Icons.Filled.CloudDownload),
+    Tab("映射", Icons.Filled.Build),
     Tab("设置", Icons.Filled.Settings),
 )
 
@@ -95,6 +97,7 @@ fun App() {
             0 -> ConnectScreen(padding)
             1 -> TranscriptScreen(padding)
             2 -> ModelScreen(padding)
+            3 -> KeymapScreen(padding)
             else -> SettingsScreen(padding)
         }
     }

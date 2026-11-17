@@ -7,6 +7,19 @@ data class FoundDevice(val name: String, val address: String, val rssi: Int)
 
 data class Transcript(val text: String, val at: Long, val durationMs: Long)
 
+/**
+ * 遥控器上的一个可映射按键，来自当前生效的设备描述符。
+ * [id] 是映射表的键，所以描述符改了 id 就等于换了绑定。
+ */
+data class RemoteInput(
+    val id: String,
+    val label: String,
+    val kind: String,
+    val page: Int,
+    val usage: Int,
+    val legacyKey: Int,
+)
+
 /** 服务与界面共享的状态（单进程内存态，够用）。 */
 object BridgeState {
     val status = MutableStateFlow("未连接")
@@ -42,6 +55,12 @@ object BridgeState {
 
     /** 识别出的机型名；空串表示还在用通用描述符。 */
     val deviceProfile = MutableStateFlow("")
+
+    /** 当前描述符 id（映射表按机型分区）；空串 = 还没识别到具体机型。 */
+    val deviceId = MutableStateFlow("")
+
+    /** 当前描述符里可以绑定的键。 */
+    val remoteInputs = MutableStateFlow<List<RemoteInput>>(emptyList())
 
     fun reset() {
         caps.value = null
