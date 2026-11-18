@@ -3,7 +3,7 @@
 把**蓝牙语音遥控器**变成手机的语音输入设备与外接键盘：按语音键说话 → 端上离线识别 → 文字写入当前输入框；
 方向键、OK、返回、主页、菜单、TV、音量等按键按机型描述符解码后**注入为真实按键事件**（可在任意 App 里当键盘用）。
 
-- 应用 ID：`com.boz700908.remotemic`　版本：`0.1.0`（debug 构建，未签名发布）
+- 应用 ID：`com.boz700908.remotemic`　版本：`0.4.0`（debug 构建，未签名发布）
 - 最低系统：Android 8.0（API 26）　目标：API 35
 - 语言/界面：Kotlin + Jetpack Compose，深色主题 `#0E1116`
 
@@ -21,7 +21,8 @@
 | 识别结果写入输入框（无障碍 `ACTION_SET_TEXT`） | 已实现 |
 | HID 按键报告解码（12 款机型描述符） | 已实现 |
 | 按键注入为真实按键事件（root） | 已实现 |
-| 按键注入（Shizuku / `uinput` 常驻守护，支持长按与真组合键） | 已实现 |
+| 免 root 真键盘注入（Shizuku UserService，按住 / 组合键 / 长按重复） | 已实现 |
+| `uinput` 常驻守护（`libuinputd.so`，root 下按住与组合键） | 已实现 |
 | 自定义按键映射（inputId → 动作），按机型持久化 | 已实现 |
 | 配置档（多套映射一键切换） | 规划中 |
 
@@ -82,11 +83,23 @@
 
 ## 注入通道
 
-- **root + `uinput`**：常驻守护进程（`libuinputd.so`），可按住、可发真实组合键
-- **root（无 `/dev/uinput`）**：退回 `su -c input keyevent/keycombination`
-- **Shizuku**：无 root 时用 Shizuku 权限发按键
-- 无 root 时：退回无障碍全局动作（返回/主页/最近任务/滚动）与音量键，不静默丢弃按键
-- 文字注入：无障碍 `ACTION_SET_TEXT`，需在系统设置里启用本应用的无障碍服务
+注入能力按可用性从强到弱分档，运行时自动选最强的一档：
+
+| 通道 | 前提 | 能力 |
+| --- | --- | --- |
+| `root · uinput` | root 且 `/dev/uinput` 可写 | 按住、真组合键、长按重复 |
+| `root（su input）` | root | 整按；长按用 `input keyevent --longpress` |
+| `Shizuku 服务（真键盘）` | Shizuku 已授权 | 按住、真组合键、长按重复 |
+| `Shizuku（input 命令）` | Shizuku 已授权 | 整按、`--longpress` |
+| 无 root、无 Shizuku | — | 无障碍全局动作（返回/主页/最近任务/滚动）与音量键，不静默丢弃按键 |
+
+「Shizuku 服务」是本应用自己的 UserService（`inject/KeyUserService.kt` + AIDL `IKeyService`）：
+由 Shizuku 以 shell 身份拉起独立进程，直接调用 `InputManager.injectInputEvent` 注入原生
+`KeyEvent`（`SOURCE_KEYBOARD`）。shell 持有 `INJECT_EVENTS`，所以按键能送到任意应用，
+不必等某个输入框拿到焦点。服务内维护「当前按下的键集合」，组合键按修饰键先按、逆序抬起，
+长按以 50 ms 周期发 repeat 事件；服务销毁时释放全部按键，避免卡键。
+
+文字注入：无障碍 `ACTION_SET_TEXT`，需在系统设置里启用本应用的无障碍服务。
 
 ## 构建
 
