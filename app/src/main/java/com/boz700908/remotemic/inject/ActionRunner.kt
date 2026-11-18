@@ -27,7 +27,8 @@ object ActionRunner {
         "back", "home", "recents", "menu",
         "vol_up", "vol_down", "mute",
         "media_play_pause", "media_next", "media_prev",
-        "scroll_up", "scroll_down", "paste", "voice", "none",
+        "scroll_up", "scroll_down", "click", "long_press",
+        "paste", "voice", "none",
     )
 
     /**
@@ -121,6 +122,8 @@ object ActionRunner {
         "media_prev" -> KeyInjector.tap(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
         "scroll_up" -> Injector.scroll(false)
         "scroll_down" -> Injector.scroll(true)
+        "click" -> pointer(context, CLICK_MS)
+        "long_press" -> pointer(context, LONG_PRESS_MS)
         "paste" -> KeyInjector.combination(KeyEvent.KEYCODE_CTRL_LEFT, KeyEvent.KEYCODE_V)
         // voice 由 BridgeService 处理，这里只当作「已认领」，避免回落成普通按键
         "voice" -> true
@@ -128,11 +131,29 @@ object ActionRunner {
         else -> false
     }
 
+    /**
+     * 在焦点位置点一下 / 长按。
+     *
+     * 先走无障碍手势（免 root、免 Shizuku，最通用）；无障碍没开再退到命令通道
+     * `input tap` / 原地 `input swipe`（要 root 或 Shizuku），坐标取屏幕中心兜底。
+     */
+    private fun pointer(context: Context, holdMs: Long): Boolean {
+        if (Injector.click(holdMs)) return true
+        val m = context.resources.displayMetrics
+        return KeyInjector.tapAt(m.widthPixels / 2, m.heightPixels / 2, holdMs)
+    }
+
     private fun volume(context: Context, direction: Int): Boolean = runCatching {
         val am = context.getSystemService(AudioManager::class.java) ?: return false
         am.adjustStreamVolume(AudioManager.STREAM_MUSIC, direction, AudioManager.FLAG_SHOW_UI)
         true
     }.getOrDefault(false)
+
+    /** 点击时长：超过系统 500 ms 长按阈值就会变成长按，所以点一下必须短。 */
+    private const val CLICK_MS = 40L
+
+    /** 长按时按住多久：600 ms 稳过 ViewConfiguration 的 500 ms 阈值。 */
+    private const val LONG_PRESS_MS = 600L
 
     private const val TAG = "RemoteActionRun"
 }

@@ -152,6 +152,17 @@ object KeyInjector {
     }
 
     /** 文字注入走无障碍：只有它知道焦点输入框和替换语义。 */
+    /**
+     * 在屏幕坐标上点一下；[holdMs] 大于 0 时按住不动（原地 `input swipe` 实现长按）。
+     * 需要 root 或 Shizuku 通道，都没有时返回 false。
+     */
+    fun tapAt(x: Int, y: Int, holdMs: Long = 0L): Boolean {
+        if (x < 0 || y < 0) return false
+        val hold = holdMs.coerceIn(0L, MAX_HOLD_MS)
+        val command = if (hold <= 0L) "input tap $x $y" else "input swipe $x $y $x $y $hold"
+        return exec(command) != null
+    }
+
     fun text(value: String, replace: Boolean): Boolean = Injector.typeText(value, replace)
 
     /* ----------------------------- Shizuku 授权 ----------------------------- */

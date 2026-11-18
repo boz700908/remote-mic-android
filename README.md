@@ -3,7 +3,7 @@
 把**蓝牙语音遥控器**变成手机的语音输入设备与外接键盘：按语音键说话 → 端上离线识别 → 文字写入当前输入框；
 方向键、OK、返回、主页、菜单、TV、音量等按键按机型描述符解码后**注入为真实按键事件**（可在任意 App 里当键盘用）。
 
-- 应用 ID：`com.boz700908.remotemic`　版本：`0.4.0`（debug 构建，未签名发布）
+- 应用 ID：`com.boz700908.remotemic`　版本：`0.5.0`（debug 构建，未签名发布）
 - 最低系统：Android 8.0（API 26）　目标：API 35
 - 语言/界面：Kotlin + Jetpack Compose，深色主题 `#0E1116`
 
@@ -23,6 +23,8 @@
 | 按键注入为真实按键事件（root） | 已实现 |
 | 免 root 真键盘注入（Shizuku UserService，按住 / 组合键 / 长按重复） | 已实现 |
 | `uinput` 常驻守护（`libuinputd.so`，root 下按住与组合键） | 已实现 |
+| 无障碍接管遥控器按键（绑了动作就吞键，没绑的照常转发） | 已实现 |
+| 指针手势 `act:click` / `act:long_press`（无障碍 `dispatchGesture`） | 已实现 |
 | 自定义按键映射（inputId → 动作），按机型持久化 | 已实现 |
 | 配置档（多套映射一键切换） | 规划中 |
 
@@ -76,10 +78,17 @@
 | `text:你好` | 写进当前焦点输入框（需无障碍） |
 | `app:com.tencent.mm` | 启动该包名的主界面（Android 11+ 靠 `<queries>` 可见性） |
 | `url:https://example.com` | 仅 http/https，用浏览器打开 |
-| `act:back` | 系统动作：`back` `home` `recents` `menu` `vol_up` `vol_down` `mute` `media_play_pause` `media_next` `media_prev` `scroll_up` `scroll_down` `paste` `voice` `none` |
+| `act:back` | 系统动作：`back` `home` `recents` `menu` `vol_up` `vol_down` `mute` `media_play_pause` `media_next` `media_prev` `scroll_up` `scroll_down` `click` `long_press` `paste` `voice` `none` |
 | `none` | 屏蔽该键 |
 
 键名解析不认错就整体放弃（宁可不发，也不发半个组合键）；注入失败返回「未处理」，按键继续走默认转发，不静默丢键。
+
+### 无障碍接管遥控器按键
+
+开启本应用的无障碍服务并勾选「按键过滤」后，遥控器按键会先过一遍映射表：绑了动作就执行并**吞掉原键**
+（不再当普通按键发出去），没绑的键一律放行，不影响遥控器当普通键盘用。只处理首次按下，抬起用同一集合
+对齐，不会出现半对按键；注入自身按键期间暂停拦截，避免 `act:back` 再触发一次自己。映射的语音键
+在无障碍下同样可用（麦克风仍由前台服务开）。
 
 ## 注入通道
 
@@ -98,6 +107,9 @@
 `KeyEvent`（`SOURCE_KEYBOARD`）。shell 持有 `INJECT_EVENTS`，所以按键能送到任意应用，
 不必等某个输入框拿到焦点。服务内维护「当前按下的键集合」，组合键按修饰键先按、逆序抬起，
 长按以 50 ms 周期发 repeat 事件；服务销毁时释放全部按键，避免卡键。
+
+`act:click` / `act:long_press` 在当前焦点控件（没焦点就取屏幕中心）按下：优先用无障碍
+`dispatchGesture`，免 root、免 Shizuku；没有无障碍再退到 `input tap` / 原地 `input swipe`。
 
 文字注入：无障碍 `ACTION_SET_TEXT`，需在系统设置里启用本应用的无障碍服务。
 

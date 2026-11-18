@@ -106,6 +106,8 @@ class BridgeService : Service(), RemoteGatt.Listener {
             ACTION_DISCONNECT -> disconnect()
             ACTION_DOWNLOAD -> downloadSelectedModel()
             ACTION_RELOAD -> applyModel(BridgeState.modelId.value, false)
+            // 无障碍接管了遥控器的语音键，麦克风还是这里开
+            ACTION_VOICE -> if (!gatt.isStreaming) gatt.openMicrophone()
         }
         BridgeState.a11yEnabled.value = Injector.isEnabled(this)
         return START_STICKY
@@ -568,6 +570,7 @@ class BridgeService : Service(), RemoteGatt.Listener {
         const val ACTION_DISCONNECT = "com.boz700908.remotemic.action.DISCONNECT"
         const val ACTION_DOWNLOAD = "com.boz700908.remotemic.action.DOWNLOAD"
         const val ACTION_RELOAD = "com.boz700908.remotemic.action.RELOAD"
+        const val ACTION_VOICE = "com.boz700908.remotemic.action.VOICE"
         const val EXTRA_ADDRESS = "address"
 
         @Volatile

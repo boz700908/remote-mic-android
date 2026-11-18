@@ -31,6 +31,9 @@ object Injector {
 
     fun scroll(forward: Boolean): Boolean = service?.scroll(forward) ?: false
 
+    /** 在焦点位置点一下（[holdMs] > 500 即长按）；无障碍没开时返回 false，由调用方换通道。 */
+    fun click(holdMs: Long): Boolean = service?.pointerClick(holdMs) ?: false
+
     fun isEnabled(context: Context): Boolean {
         val expected = ComponentName(context, RemoteKeyAccessibilityService::class.java)
             .flattenToString()
